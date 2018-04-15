@@ -5,9 +5,29 @@ INPUT = data(2:end, :);
 
 Fs = 125;
 s = 1;
+e = 8 * Fs;
+p = 60*Fs*16;
+X = s:p;
+R1 = INPUT(2, s:e)';
+R1 = padarray(R1, p - e, 'post');
+FR1 = fft(R1);
+size(R1);
+figure, plot(X, R1);
+figure, plot(X, FR1);
+k = 400;
+CFR1 = ones(p - s + 1, 1);
+CFR1(s + k: p - k) = 0;
+CFR1 = CFR1.*FR1;
+figure, plot(X, CFR1);data = sig;
+
+ECG = data(1, :);
+INPUT = data(2:end, :);
+
+Fs = 125;
+s = 1;
 e = 30 * Fs;
 X = s:e;
-R1 = INPUT(3, s:e)';
+R1 = INPUT(1, s:e)';
 FR1 = fft(R1);
 size(R1);
 figure, plot(X, R1);
@@ -17,6 +37,10 @@ CFR1 = ones(e - s + 1, 1);
 CFR1(s + k: e - k) = 0;
 CFR1 = CFR1.*FR1;
 figure, plot(X, CFR1);
+CR1 = ifft(CFR1);
+figure, plot(X, CR1);
+
+
 CR1 = ifft(CFR1);
 figure, plot(X, CR1);
 
