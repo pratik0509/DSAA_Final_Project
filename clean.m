@@ -7,7 +7,7 @@ Fs = 125;
 s = 1;
 e = 30 * Fs;
 X = s:e;
-R1 = INPUT(2, s:e)';
+R1 = INPUT(3, s:e)';
 FR1 = fft(R1);
 size(R1);
 figure, plot(X, R1);
@@ -19,7 +19,6 @@ CFR1 = CFR1.*FR1;
 figure, plot(X, CFR1);
 CR1 = ifft(CFR1);
 figure, plot(X, CR1);
-
 
 s = e + 1;
 e = e + 60 * Fs;
