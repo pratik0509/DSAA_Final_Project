@@ -1,18 +1,17 @@
-close all;
 
-load './DATA_02_TYPE02.mat';
-load 'DATA_02_TYPE02_BPMtrace.mat';
+load './DATA_01_TYPE01.mat';
+load 'DATA_01_TYPE01_BPMtrace.mat';
 data = sig;
 
 I = data(2:end, :)';
-size(I);
+I_sz = size(I);
 Fs = 125;
 fmin = 1.0;
 fmax = 2.5;
-tmax = 5 * 60;
+tmax = floor(I_sz(1) / 125);
 delt = 8;
 step = 2;
-s = 0:2:(tmax - delt + step);
+s = 0:2:(tmax - delt);
 s = (s * Fs) + 1;
 dist = delt * Fs;
 dilation = 64 * Fs * 16;
@@ -21,7 +20,7 @@ accx = I(:, 3);
 accy = I(:, 4);
 accz = I(:, 5);
 acc = accx.^2 + accy.^2 + accz.^2;
-acc = acc.^0.5;
+acc = acc;
 
 % LMSF = dsp.LMSFilter(5, 'Method', 'Normalized LMS', 'Length', 5);
 % [ylms, eppg1, wlms] = LMSF(acc, I(:, 1));

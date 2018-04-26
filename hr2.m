@@ -22,14 +22,16 @@ accz = I(:, 5);
 acc = accx.^2 + accy.^2 + accz.^2;
 acc = acc.^0.5;
 
-figure, plot(I(:, 1));
+acc = fft(acc);
 
-%I(:, 1) = filter_noise(I(:, 1), acc);
-%I(:, 2) = filter_noise(I(:, 2), acc);
+I(:, 1) = fft(I(:, 1));
+I(:, 2) = fft(I(:, 2));
 
+I(:, 1) = filter_noise(I(:, 1), acc);
+I(:, 2) = filter_noise(I(:, 2), acc);
 
-figure, plot(I(:, 1));
-
+I(:, 1) = ifft(I(:, 1));
+I(:, 2) = ifft(I(:, 2));
 
 Y1 = [];
 Y2 = [];
@@ -97,13 +99,13 @@ err_hravg = err_hravg .^ 2;
 sum(err_hravg)
 
 function [Y] = filter_noise(I, N)
-%    LMSF = dsp.LMSFilter(7, 'Method', 'Normalized LMS');
-%    [ylms, eppg1, wlms] = LMSF(N, I);
-%    Y = eppg1;
-    L = 3;
-    bw = firwiener(L-1,N,I);
-    yw = filter(bw,1,N);
-    Y = I - yw;
+    LMSF = dsp.LMSFilter(7, 'Method', 'Normalized LMS');
+    [ylms, eppg1, wlms] = LMSF(N, I);
+    Y = eppg1;
+%    L = 3;
+%    bw = firwiener(L-1,N,I);
+%    yw = filter(bw,1,N);
+%    Y = I - yw;
 end
 
 function [ind] = find_peak(I, offset, base, Fs, dilation, delta)

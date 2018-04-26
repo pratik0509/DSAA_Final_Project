@@ -3,14 +3,14 @@ load 'DATA_12_TYPE02_BPMtrace.mat';
 data = sig;
 
 I = data(2:end, :)';
-size(I);
+I_sz = size(I);
 Fs = 125;
 fmin = 1.0;
-fmax = 2.5;
-tmax = 5 * 60;
+fmax = 3;
+tmax = floor(I_sz(1) / Fs);
 delt = 8;
 step = 2;
-s = 0:2:(tmax - delt + step);
+s = 0:2:(tmax - delt);
 s = (s * Fs) + 1;
 dist = delt * Fs;
 dilation = 64 * Fs * 16;
@@ -20,15 +20,15 @@ accx = I(:, 3);
 accy = I(:, 4);
 accz = I(:, 5);
 acc = accx.^2 + accy.^2 + accz.^2;
-acc = acc.^0.5;
+acc = acc;
 
-figure, plot(I(:, 1));
+%figure, plot(I(:, 1));
 
 I(:, 1) = filter_noise(I(:, 1), acc);
 I(:, 2) = filter_noise(I(:, 2), acc);
 
 
-figure, plot(I(:, 1));
+%figure, plot(I(:, 1));
 
 
 Y1 = [];
